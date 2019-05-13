@@ -17,7 +17,7 @@
 
 			</GridLayout>
 
-			<GridLayout #landmarkLayout rows="auto,auto,auto,auto,auto,auto,auto,auto" columns="auto,*" translateY="500" (loaded)="animateIn(landmarkLayout,300,150)"
+			<GridLayout #landmarkLayout rows="auto,auto,auto,auto,auto,auto,auto,auto,auto" columns="auto,*" translateY="500" (loaded)="animateIn(landmarkLayout,300,150)"
 			 class="landmark-content">
 
 				<Label #title colSpan="2" textWrap="true" [text]="auto.marca + ' ' + auto.modelo + ' '+ auto.anio " scaleX="0.7" scaleY="0.7" translateX="-30" (loaded)="animateIn(title,250,150)"
@@ -52,11 +52,14 @@
 					<Image src="~/app/icons/comments.png" class="landmark-stat-icon"></Image>
 					<Label text="{{ auto.comments }} Comments" class="landmark-stat-label"></Label>
 				</StackLayout>
-
-				<Label #landmarkDescription row="6" colSpan="2" translateY="500" textWrap="true" [text]="auto.description" (loaded)="animateIn(landmarkDescription,350,500)"
+				<StackLayout #landmarkStat6 row="6" translateY="500" (loaded)="animateIn(landmarkStat6,350,450)" orientation="horizontal">
+					<Button col="0" class="fa btn buttonFav" text="&#xf004; Favoritos"></Button>
+					<Button col="1" class="fa btn buttonBuy" text="&#xf290; Comprar"></Button>
+				</StackLayout>
+				<Label #landmarkDescription row="7" colSpan="2" translateY="500" textWrap="true" [text]="auto.description" (loaded)="animateIn(landmarkDescription,350,500)"
 					   class="landmark-description"></Label>
 
-				<Label #landmarkFooter row="7" colSpan="2" translateY="500" textWrap="true" text="nationalparktripsmedia.com" (loaded)="animateIn(landmarkFooter,350,500)"
+				<Label #landmarkFooter row="8" colSpan="2" translateY="500" textWrap="true" text="nationalparktripsmedia.com" (loaded)="animateIn(landmarkFooter,350,500)"
 					class="landmark-footer"></Label>
 
 			</GridLayout>

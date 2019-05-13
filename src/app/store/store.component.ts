@@ -4,22 +4,34 @@ import * as app from "tns-core-modules/application";
 import { BarcodeScanner } from 'nativescript-barcodescanner';
 import { DeviceOrientation } from "ui/enums";
 import portrait = DeviceOrientation.portrait;
+import { View } from "ui/core/view";
+import { AutosService } from "~/app/autos-service";
+import { AnimationsService } from "~/app/animations-service";
+import { RouterExtensions } from "nativescript-angular";
 
 
 @Component({
     selector: "Store",
     moduleId: module.id,
-    templateUrl: "./store.component.html"
+    templateUrl: "./store.component.html",
+    styleUrls:["./store.component.css"]
 })
 export class StoreComponent implements OnInit {
 
-    constructor(private barcodeScanner: BarcodeScanner) {
+    private _selectedView: View;
+    private _activatedUrl: string;
+
+    constructor(private barcodeScanner: BarcodeScanner,
+                private autosService: AutosService,
+                private animationsService: AnimationsService,
+                private routerExtensions: RouterExtensions) {
         // Use the component constructor to inject providers.
 
     }
 
     ngOnInit(): void {
         // Init your component properties here.
+        this._activatedUrl="/store"
 
     }
 
@@ -29,25 +41,42 @@ export class StoreComponent implements OnInit {
     }
     public onScan() {
         this.barcodeScanner.scan({
-            formats: "QR_CODE, EAN_13",
+            formats: "QR_CODE",
             showFlipCameraButton: true,
             preferFrontCamera: false,
             showTorchButton: true,
             beepOnScan: true,
             torchOn: false,
-            resultDisplayDuration: 500,
+            resultDisplayDuration: 0,
             orientation: portrait,
             openSettingsIfPermissionWasPreviouslyDenied: true //ios only
         }).then((result) => {
-                alert({
-                    title: "You Scanned ",
-                    message: "Format: " + result.format + ",\nContent: " + result.text,
-                    okButtonText: "OK"
-                });
-                console.log(result);
+                setTimeout(()=>{
+                    if(result){
+                        return
+                    }
+                })
+                console.log(result)
+                this.onNavItemTap("/store/qrdetails/"+result.text)
             }, (errorMessage) => {
                 console.log("Error when scanning " + errorMessage);
             }
         );
     }
+    goToAuto(id: string){
+        this.autosService.setSelectedId(+id);
+        this.routerExtensions.navigate(["qrdetails"], {animated: false});
+    }
+    isComponentSelected(url: string): boolean {
+        return this._activatedUrl === url;
+    }
+
+    onNavItemTap(navItemRoute: string): void {
+        this.routerExtensions.navigate([navItemRoute], {
+            transition: {
+                name: "fade"
+            }
+        });
+    }
+
 }

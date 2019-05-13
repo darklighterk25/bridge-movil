@@ -13,15 +13,16 @@ import * as app from "tns-core-modules/application";
 export class AppComponent implements OnInit {
     private _activatedUrl: string;
     private _sideDrawerTransition: DrawerTransitionBase;
+    private isLoggedIn: boolean
 
     constructor(private router: Router, private routerExtensions: RouterExtensions) {
         // Use the component constructor to inject services.
     }
 
     ngOnInit(): void {
+        this.isLoggedIn=false;
         this._activatedUrl = "/home";
         this._sideDrawerTransition = new SlideInOnTopTransition();
-
         this.router.events
             .pipe(filter((event: any) => event instanceof NavigationEnd))
             .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
@@ -42,6 +43,11 @@ export class AppComponent implements OnInit {
             }
         });
 
+        const sideDrawer = <RadSideDrawer>app.getRootView();
+        sideDrawer.closeDrawer();
+    }
+    register(): void{
+        this.router.navigate(["register"]);
         const sideDrawer = <RadSideDrawer>app.getRootView();
         sideDrawer.closeDrawer();
     }

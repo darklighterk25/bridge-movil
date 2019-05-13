@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Auto } from "./auto";
 import { AUTOS } from "./mock-autos";
+import { Observable } from "rxjs";
 
 @Injectable()
 export class AutosService {
@@ -14,7 +15,12 @@ export class AutosService {
         return AUTOS.filter(auto => auto.id === id)[0];
     }
 
+    getAutoDetails(id: number){
+        return AUTOS.filter(auto => auto.id === id)[0];
+    }
+
     setSelectedId(id: number) {
+        this._selectedId=-1;
         if (id < AUTOS.length) {
             this._selectedId = id;
         }
@@ -22,5 +28,9 @@ export class AutosService {
 
     getSelected(): Auto {
         return this._selectedId < 0 ? null : this.getAuto(this._selectedId);
+    }
+
+    searchAutos(searchString: string): Auto[]{
+        return AUTOS.filter( auto => auto.marca.toLowerCase().includes(searchString));
     }
 }

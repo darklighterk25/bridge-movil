@@ -8,6 +8,8 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AnimationsService } from "~/app/animations-service";
 import { AutosService } from "~/app/autos-service";
+import { RegisterComponent } from './register/register.component';
+
 
 @NgModule({
     bootstrap: [
@@ -25,7 +27,8 @@ import { AutosService } from "~/app/autos-service";
         AutosService
     ],
     declarations: [
-        AppComponent
+        AppComponent,
+        RegisterComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA

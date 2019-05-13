@@ -5,7 +5,11 @@ http://docs.telerik.com/devtools/nativescript-ui/Controls/NativeScript/SideDrawe
 -->
 <RadSideDrawer [drawerTransition]="sideDrawerTransition">
     <GridLayout tkDrawerContent rows="auto, *" class="sidedrawer sidedrawer-left">
-        <StackLayout row="0" class="sidedrawer-header">
+        <StackLayout *ngIf="!isLoggedIn" row="0" class="sidedrawer-header" (tap)="isLoggedIn=true">
+            <Label class="sidedrawer-header-brand fa" marginTop="60" fontSize="20" text="Inicia Sesión &#xf090;"></Label>
+
+        </StackLayout>
+        <StackLayout *ngIf="isLoggedIn" row="0" class="sidedrawer-header">
             <Label class="sidedrawer-header-image fa" text="&#xf2bd;"></Label>
             <Label class="sidedrawer-header-brand" text="Usuario"></Label>
             <Label class="footnote" text="usuario@correo.com"></Label>
@@ -18,13 +22,6 @@ http://docs.telerik.com/devtools/nativescript-ui/Controls/NativeScript/SideDrawe
                     <Label col="0" text="&#xf015;" class="fa"></Label>
                     <Label col="1" text="Inicio" class="p-r-10"></Label>
                 </GridLayout>
-
-                <GridLayout columns="auto, *" class="sidedrawer-list-item"
-                            [class.selected]="isComponentSelected('/search')" (tap)="onNavItemTap('/search')">
-                    <Label col="0" text="&#xf002;" class="fa"></Label>
-                    <Label col="1" text="Búsqueda" class="p-r-10"></Label>
-                </GridLayout>
-
                 <GridLayout columns="auto, *" class="sidedrawer-list-item"
                             [class.selected]="isComponentSelected('/wishlist')" (tap)="onNavItemTap('/wishlist')">
                     <Label col="0" text="&#xf004;" class="fa"></Label>
@@ -35,6 +32,19 @@ http://docs.telerik.com/devtools/nativescript-ui/Controls/NativeScript/SideDrawe
                             [class.selected]="isComponentSelected('/store')" (tap)="onNavItemTap('/store')">
                     <Label col="0" text="&#xf1b9;" class="fa"></Label>
                     <Label col="1" text="Código QR" class="p-r-10"></Label>
+                </GridLayout>
+                <GridLayout *ngIf="isLoggedIn" columns="auto, *" class="sidedrawer-list-item"
+                            [class.selected]="isComponentSelected('/search')" (tap)="onNavItemTap('/search')">
+                    <Label col="0" text="&#xf2bd;" class="fa"></Label>
+                    <Label col="1" text="Perfil Usuario" class="p-r-10"></Label>
+                </GridLayout>
+                <GridLayout *ngIf="isLoggedIn" columns="auto, *" class="sidedrawer-list-item"
+                            (tap)="isLoggedIn=false">
+                    <Label col="0" text="&#xf08b;" class="fa"></Label>
+                    <Label col="1" text="Cerrar Sesión" class="p-r-10"></Label>
+                </GridLayout>
+                <GridLayout *ngIf="!isLoggedIn">
+                    <Button class="fa btn-rounded-sm btn-primary" text="Registrate" (tap)="register()"></Button>
                 </GridLayout>
             </StackLayout>
         </ScrollView>
