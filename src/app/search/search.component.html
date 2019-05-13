@@ -19,7 +19,6 @@
         <SearchBar colSpan="1"  (clear)="onClear($event)" [text]="searchString"
                    (submit)="onSubmit($event)" (change)="onTextChange($event)" class="search-bar"></SearchBar>
         <Button col="1" class="fa search-listen-icon" (tap)="startListening()" text="&#xf130;"></Button>
-        <Button col="2" class="fa search-listen-icon" (tap)="stopListening()" text="&#xf131;"></Button>
     </StackLayout>
     <StackLayout row="1">
         <ActivityIndicator [busy]="listening" [visibility]="listening ? 'visible' : 'collapse'"></ActivityIndicator>

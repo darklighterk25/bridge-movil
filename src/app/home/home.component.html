@@ -22,10 +22,12 @@
 
 </ActionBar>
 
-<GridLayout rows="auto,auto,*" class="page">
-    <SearchBar row="0"  *ngIf="searching" hint="Filter News..." (clear)="onClear($event)"
+<GridLayout rows="auto,auto,*" columns="280,*" class="page">
+    <SearchBar row="0"  *ngIf="searching" hint="Buscar auto..." (clear)="onClear($event)" [text]="searchString"
                (submit)="onSubmit($event)" (change)="onTextChange($event)" class="search-bar"></SearchBar>
-    <ListView row="1"  #list [items]="autos" (itemTap)="onNavigationItemTap($event)" height="100%">
+    <Button row="0" col="1" *ngIf="searching" class="fa" (tap)="startListening()" text="&#xf130;"></Button>
+    <ActivityIndicator [busy]="listening" [visibility]="listening ? 'visible' : 'collapse'"></ActivityIndicator>
+    <ListView row="1" colSpan="2" #list [items]="autos" (itemTap)="onNavigationItemTap($event)" height="100%">
         <ng-template let-item="item">
             <GridLayout class="list-item">
                 <Image [src]="item.image"></Image>
@@ -36,4 +38,5 @@
     <AbsoluteLayout row="2" #animatingImageContainer opacity="0" class="animating-image-container">
         <Image #animatingImage width="100%"></Image>
     </AbsoluteLayout>
+
 </GridLayout>

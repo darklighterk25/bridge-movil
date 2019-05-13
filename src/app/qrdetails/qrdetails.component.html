@@ -1,0 +1,65 @@
+<ActionBar class="action-bar">
+    <NavigationButton (tap)="onTap()"></NavigationButton>
+    <GridLayout columns="auto,*,auto" ios:padding="0 10" height="100%" width="100%">
+        <!--<ActionButton visibility="collapsed" (tap)="onTap()" isArrow="true"></ActionButton>!-->
+        <Label col="1" text="Detalles" class="action-bar-label"></Label>
+        <Image col="2" #search src="~/app/icons/search.png" tintColor="#ffffff" (loaded)="animateOut(search)" class="action-bar-icon"></Image>
+    </GridLayout>
+</ActionBar>
+
+<GridLayout>
+    <ScrollView (scroll)="onScroll($event)">
+        <StackLayout *ngIf="auto" [minHeight]="minHeight">
+
+            <Image #image [src]="auto.image" stretch="aspectFit"></Image>
+            <GridLayout #detailLayout rows="auto,auto,auto" columns="auto,auto" translateY="500" (loaded)="a">
+
+            </GridLayout>
+
+            <GridLayout #landmarkLayout rows="auto,auto,auto,auto,auto,auto,auto,auto" columns="auto,*" translateY="500" (loaded)="animateIn(landmarkLayout,300,150)"
+                        class="landmark-content">
+
+                <Label #title colSpan="2" textWrap="true" [text]="auto.marca + ' ' + auto.modelo + ' '+ auto.anio " scaleX="0.7" scaleY="0.7" translateX="-30" (loaded)="animateIn(title,250,150)"
+                       class="landmark-name"></Label>
+
+                <StackLayout class="landmark-detail" #landmarkStat1 row="1" colSpan="2" translateY="500" (loaded)="animateIn(landmarkStat1,200,350)" orientation="horizontal">
+                    <Label class="landmark-stat-icon fa" text="&#xf2bd;"></Label>
+                    <Label [text]="auto.user" class="landmark-stat-label"></Label>
+                </StackLayout>
+
+                <StackLayout #landmarkStat2 row="2" colSpan="2" translateY="500" (loaded)="animateIn(landmarkStat2,250,350)" orientation="horizontal">
+                    <Label class="landmark-stat-icon fa" text="&#xf155;"></Label>
+                    <Label [text]="auto.precio| currency:'MXN'" class="landmark-stat-label"></Label>
+                </StackLayout>
+
+                <StackLayout #landmarkStat3 row="3"  translateY="500" (loaded)="animateIn(landmarkStat3,275,350)" orientation="horizontal">
+                    <Label class="landmark-stat-icon fa" text="&#xf018;"></Label>
+                    <Label [text]="auto.kilometraje + 'KM'" class="landmark-stat-label"></Label>
+                </StackLayout>
+
+                <StackLayout #landmarkStat4 row="4" translateY="500" (loaded)="animateIn(landmarkStat4,300,350)" orientation="horizontal">
+                    <Image src="~/app/icons/location.png" class="landmark-stat-icon"></Image>
+                    <Label [text]="auto.location" class="landmark-stat-label"></Label>
+                </StackLayout>
+
+                <StackLayout #landmarkStat5 row="5" translateY="500" (loaded)="animateIn(landmarkStat5,350,400)" orientation="horizontal">
+                    <Image src="~/app/icons/likes.png" class="landmark-stat-icon"></Image>
+                    <Label text="{{ auto.likes }} Likes" class="landmark-stat-label"></Label>
+                </StackLayout>
+
+                <StackLayout #landmarkStat6 row="5"  col="1" translateY="500" (loaded)="animateIn(landmarkStat6,350,450)" orientation="horizontal">
+                    <Image src="~/app/icons/comments.png" class="landmark-stat-icon"></Image>
+                    <Label text="{{ auto.comments }} Comments" class="landmark-stat-label"></Label>
+                </StackLayout>
+
+                <Label #landmarkDescription row="6" colSpan="2" translateY="500" textWrap="true" [text]="auto.description" (loaded)="animateIn(landmarkDescription,350,500)"
+                       class="landmark-description"></Label>
+
+                <Label #landmarkFooter row="7" colSpan="2" translateY="500" textWrap="true" text="nationalparktripsmedia.com" (loaded)="animateIn(landmarkFooter,350,500)"
+                       class="landmark-footer"></Label>
+
+            </GridLayout>
+
+        </StackLayout>
+    </ScrollView>
+</GridLayout>

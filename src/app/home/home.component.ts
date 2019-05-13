@@ -5,6 +5,7 @@ import { Auto } from "../auto";
 import { RouterExtensions } from "nativescript-angular/router";
 import { View } from "tns-core-modules/ui/core/view";
 import { Page } from "tns-core-modules/ui/page";
+import { screen } from "platform";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import { AnimationCurve } from "tns-core-modules/ui/enums";
 import { topmost } from "tns-core-modules/ui/frame";
@@ -16,6 +17,8 @@ import { AutosService } from "../autos-service";
 import { ActionButtonComponent } from "../action-button/action-button.component";
 import * as app from "tns-core-modules/application";
 import { SearchBar } from "ui/search-bar";
+import { SpeechRecognition, SpeechRecognitionTranscription } from "nativescript-speech-recognition";
+
 
 @Component({
     selector: "Home",
@@ -34,6 +37,9 @@ export class HomeComponent implements OnInit {
     private _selectedView: View;
     private _adjustedOffset: number = 0;
     private searching: boolean = false;
+    private speechRecognition = new SpeechRecognition();
+    private searchString: string;
+    public listening: boolean = false;
 
     constructor(private animationsService: AnimationsService,
                 private autosService: AutosService,
@@ -43,7 +49,6 @@ export class HomeComponent implements OnInit {
 
         this.page["scrollable-content"] = true;
         this._autos = this.autosService.getAutos();
-
         if (android) {
             this._updateStatusBarColor("#2B3238");
         }
@@ -57,6 +62,10 @@ export class HomeComponent implements OnInit {
         if (ios) {
             topmost().ios.controller.navigationBar.barStyle = 1;
         }
+        this.checkAvailability();
+        this.speechRecognition.requestPermission().then((granted: boolean) => {
+            console.log("Granted? " + granted);
+        });
     }
 
     get autos() {
@@ -149,6 +158,7 @@ export class HomeComponent implements OnInit {
     onSearch(searchValue) {
         if (searchValue !== "") {
             console.log(searchValue)
+            this._autos=this.autosService.searchAutos(searchValue);
         }
     }
 
@@ -163,5 +173,62 @@ export class HomeComponent implements OnInit {
     public onTextChange(args) {
         let searchBar = <SearchBar>args.object;
         this.onSearch(searchBar.text ? searchBar.text.toLowerCase() : "");
+    }
+    checkAvailability(): void {
+        this.speechRecognition.available().then(
+            (available: boolean) => console.log(available ? "YES!" : "NO"),
+            (err: string) => console.log(err)
+        );
+    }
+
+    startListening(): void {
+
+        this.speechRecognition.startListening({
+            returnPartialResults: true,
+            onResult: (transcription: SpeechRecognitionTranscription) => {
+                this.searchString=transcription.text;
+                if (transcription.finished) {
+                    this.listening=false
+                    console.log(`User said: ${transcription.text}`);
+                    this.stopListening();
+                    this.onSearch(this.searchString.toLowerCase());
+                }
+            },
+            onError: (error: string | number) => {
+                if (typeof error === "number") {
+                    switch (error) {
+                        case 6:
+                            console.error("ANDROID_ERROR_SPEECH_TIMEOUT: No speech input.");
+                            break;
+
+                        case 7:
+                            console.error("ANDROID_ERROR_NO_MATCH: No recognition result matched.");
+                            break;
+
+                        default:
+                            console.error("ANDROID_ERROR: An error has occurred");
+                            break;
+                    }
+                } else {
+                    console.log("IOS_ERROR:", error);
+                }
+                this.stopListening();
+            }
+        }).then(
+            (started: boolean) => {
+                console.log(`started listening: ${started}`);
+                this.listening=true;
+            }
+        ).catch((error) => { console.log(error); });
+    }
+
+    stopListening(): void {
+        this.speechRecognition.stopListening().then(
+            () => {
+                console.log(`stopped listening`);
+                this.listening=false
+            },
+            (errorMessage: string) => { console.error(`Stop error: ${errorMessage}`); }
+        );
     }
 }

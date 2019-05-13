@@ -15,8 +15,8 @@
     <Label class="action-bar-title" text="Código QR"></Label>
 </ActionBar>
 
-<GridLayout class="page page-content">
-    <Label class="page-icon fa" text="&#xf1b9;"></Label>
-    <Label class="page-placeholder" text="<!-- Page content goes here -->"></Label>
-    <Button text="SCAN" (tap)="onScan()" class="btn btn-primary btn-active"></Button>
+<GridLayout rows="auto,auto,auto" class="page">
+    <Label row="0" class="page-icon fa" text="&#xf029;"></Label>
+    <Label row="1" class="page-placeholder" text="Escanea un codigo QR para ver los detalles"></Label>
+    <Button row="2" text="&#xf030;" (tap)="onScan()" class="fa btn btn-primary camera-button"></Button>
 </GridLayout>

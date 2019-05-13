@@ -15,6 +15,7 @@ export class AutosService {
     }
 
     setSelectedId(id: number) {
+        this._selectedId=-1;
         if (id < AUTOS.length) {
             this._selectedId = id;
         }
@@ -22,5 +23,9 @@ export class AutosService {
 
     getSelected(): Auto {
         return this._selectedId < 0 ? null : this.getAuto(this._selectedId);
+    }
+
+    searchAutos(searchString: string): Auto[]{
+        return AUTOS.filter( auto => auto.marca.toLowerCase().includes(searchString));
     }
 }

@@ -4,16 +4,26 @@ import * as app from "tns-core-modules/application";
 import { BarcodeScanner } from 'nativescript-barcodescanner';
 import { DeviceOrientation } from "ui/enums";
 import portrait = DeviceOrientation.portrait;
+import { View } from "ui/core/view";
+import { AutosService } from "~/app/autos-service";
+import { AnimationsService } from "~/app/animations-service";
+import { RouterExtensions } from "nativescript-angular";
 
 
 @Component({
     selector: "Store",
     moduleId: module.id,
-    templateUrl: "./store.component.html"
+    templateUrl: "./store.component.html",
+    styleUrls:["./store.component.css"]
 })
 export class StoreComponent implements OnInit {
 
-    constructor(private barcodeScanner: BarcodeScanner) {
+    private _selectedView: View;
+
+    constructor(private barcodeScanner: BarcodeScanner,
+                private autosService: AutosService,
+                private animationsService: AnimationsService,
+                private routerExtensions: RouterExtensions) {
         // Use the component constructor to inject providers.
 
     }
@@ -29,25 +39,27 @@ export class StoreComponent implements OnInit {
     }
     public onScan() {
         this.barcodeScanner.scan({
-            formats: "QR_CODE, EAN_13",
+            formats: "QR_CODE",
             showFlipCameraButton: true,
             preferFrontCamera: false,
             showTorchButton: true,
             beepOnScan: true,
             torchOn: false,
-            resultDisplayDuration: 500,
+            resultDisplayDuration: 10,
             orientation: portrait,
             openSettingsIfPermissionWasPreviouslyDenied: true //ios only
         }).then((result) => {
-                alert({
-                    title: "You Scanned ",
-                    message: "Format: " + result.format + ",\nContent: " + result.text,
-                    okButtonText: "OK"
-                });
                 console.log(result);
+                this.autosService.setSelectedId(+result.text);
+                this.routerExtensions.navigate(["/qrdetails"], {animated: false});
             }, (errorMessage) => {
                 console.log("Error when scanning " + errorMessage);
             }
         );
     }
+    goToAuto(id: string){
+        this.autosService.setSelectedId(+id);
+        this.routerExtensions.navigate(["/qrdetails"], {animated: false});
+    }
+
 }
