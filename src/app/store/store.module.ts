@@ -4,6 +4,7 @@ import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { StoreRoutingModule } from "./store-routing.module";
 import { StoreComponent } from "./store.component";
 
+
 @NgModule({
     imports: [
         NativeScriptCommonModule,

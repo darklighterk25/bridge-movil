@@ -12,10 +12,11 @@
     <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()"
                 ios.position="left">
     </ActionItem>
-    <Label class="action-bar-title" text="Catálogo"></Label>
+    <Label class="action-bar-title" text="Código QR"></Label>
 </ActionBar>
 
 <GridLayout class="page page-content">
     <Label class="page-icon fa" text="&#xf1b9;"></Label>
     <Label class="page-placeholder" text="<!-- Page content goes here -->"></Label>
+    <Button text="SCAN" (tap)="onScan()" class="btn btn-primary btn-active"></Button>
 </GridLayout>

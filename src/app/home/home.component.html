@@ -2,20 +2,38 @@
     <!-- 
     Use the NavigationButton as a side-drawer button in Android
     because ActionItems are shown on the right side of the ActionBar
-    -->
-    <NavigationButton ios:visibility="collapsed" icon="res://menu" (tap)="onDrawerButtonTap()"></NavigationButton>
+-->
+    <NavigationButton visibility="collapsed" icon="res://menu" (tap)="onDrawerButtonTap()"></NavigationButton>
     <!-- 
     Use the ActionItem for IOS with position set to left. Using the
     NavigationButton as a side-drawer button in iOS is not possible,
     because its function is to always navigate back in the application.
     -->
-    <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()"
-                ios.position="left">
-    </ActionItem>
-    <Label class="action-bar-title" text="Inicio"></Label>
+    <GridLayout columns="auto,*,auto" ios:padding="0 10" height="100%" width="100%">
+        <ActionButton #actionButton (tap)="onDrawerButtonTap()"></ActionButton>
+        <StackLayout col="1" orientation="horizontal" style="horizontal-align: center">
+            <Image src="~/app/icons/car-on-the-bridge.png" class="action-bar-icon" tintColor="#ffffff"></Image>
+            <Label class="action-bar-label" text="Bridge"></Label>
+        </StackLayout>
+
+        <Image #search col="2" src="~/app/icons/search.png" class="fa action-bar-icon" tintColor="#ffffff"
+               (tap)="searching = !searching"></Image>
+    </GridLayout>
+
 </ActionBar>
 
-<GridLayout class="page page-content">
-    <Label class="page-icon fa" text="&#xf015;"></Label>
-    <Label class="page-placeholder" text="<!-- Page content goes here -->"></Label>
+<GridLayout rows="auto,auto,*" class="page">
+    <SearchBar row="0"  *ngIf="searching" hint="Filter News..." (clear)="onClear($event)"
+               (submit)="onSubmit($event)" (change)="onTextChange($event)" class="search-bar"></SearchBar>
+    <ListView row="1"  #list [items]="autos" (itemTap)="onNavigationItemTap($event)" height="100%">
+        <ng-template let-item="item">
+            <GridLayout class="list-item">
+                <Image [src]="item.image"></Image>
+                <Label [text]="item.marca + ' ' + item.modelo + ' '+ item.anio " class="item-title"></Label>
+            </GridLayout>
+        </ng-template>
+    </ListView>
+    <AbsoluteLayout row="2" #animatingImageContainer opacity="0" class="animating-image-container">
+        <Image #animatingImage width="100%"></Image>
+    </AbsoluteLayout>
 </GridLayout>

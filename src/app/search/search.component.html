@@ -14,8 +14,15 @@
     <Label class="action-bar-title" text="Búsqueda"></Label>
 </ActionBar>
 
-<GridLayout class="page page-content">
-    <Label class="page-icon fa" text="&#xf002;"></Label>
-    <Label class="page-placeholder" text="<!-- Page content goes here -->"></Label>
-    <Button (tap)="startListening()" text="Escuchar"></Button>
+<GridLayout rows="auto,*"  class="page">
+    <StackLayout row="0" columns="auto, auto, *" orientation="horizontal">
+        <SearchBar colSpan="1"  (clear)="onClear($event)" [text]="searchString"
+                   (submit)="onSubmit($event)" (change)="onTextChange($event)" class="search-bar"></SearchBar>
+        <Button col="1" class="fa search-listen-icon" (tap)="startListening()" text="&#xf130;"></Button>
+        <Button col="2" class="fa search-listen-icon" (tap)="stopListening()" text="&#xf131;"></Button>
+    </StackLayout>
+    <StackLayout row="1">
+        <ActivityIndicator [busy]="listening" [visibility]="listening ? 'visible' : 'collapse'"></ActivityIndicator>
+
+    </StackLayout>
 </GridLayout>

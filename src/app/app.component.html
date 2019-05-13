@@ -20,12 +20,6 @@ http://docs.telerik.com/devtools/nativescript-ui/Controls/NativeScript/SideDrawe
                 </GridLayout>
 
                 <GridLayout columns="auto, *" class="sidedrawer-list-item"
-                            [class.selected]="isComponentSelected('/store')" (tap)="onNavItemTap('/store')">
-                    <Label col="0" text="&#xf1b9;" class="fa"></Label>
-                    <Label col="1" text="Catálogo" class="p-r-10"></Label>
-                </GridLayout>
-
-                <GridLayout columns="auto, *" class="sidedrawer-list-item"
                             [class.selected]="isComponentSelected('/search')" (tap)="onNavItemTap('/search')">
                     <Label col="0" text="&#xf002;" class="fa"></Label>
                     <Label col="1" text="Búsqueda" class="p-r-10"></Label>
@@ -35,6 +29,12 @@ http://docs.telerik.com/devtools/nativescript-ui/Controls/NativeScript/SideDrawe
                             [class.selected]="isComponentSelected('/wishlist')" (tap)="onNavItemTap('/wishlist')">
                     <Label col="0" text="&#xf004;" class="fa"></Label>
                     <Label col="1" text="Lista de Deseos" class="p-r-10"></Label>
+                </GridLayout>
+
+                <GridLayout columns="auto, *" class="sidedrawer-list-item"
+                            [class.selected]="isComponentSelected('/store')" (tap)="onNavItemTap('/store')">
+                    <Label col="0" text="&#xf1b9;" class="fa"></Label>
+                    <Label col="1" text="Código QR" class="p-r-10"></Label>
                 </GridLayout>
             </StackLayout>
         </ScrollView>

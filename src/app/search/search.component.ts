@@ -2,17 +2,23 @@ import { Component, OnInit } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 import { SpeechRecognition, SpeechRecognitionTranscription } from "nativescript-speech-recognition";
+import { SearchBar } from "ui/search-bar";
+import { Observable } from "data/observable";
 
 @Component({
     selector: "Search",
     moduleId: module.id,
-    templateUrl: "./search.component.html"
+    templateUrl: "./search.component.html",
+    styleUrls:["./search.component.css"]
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent extends Observable implements OnInit  {
 
     private speechRecognition = new SpeechRecognition();
+    private searchString: string;
+    public listening: boolean = false;
 
     constructor() {
+        super();
         // Use the component constructor to inject providers.
     }
     
@@ -37,9 +43,13 @@ export class SearchComponent implements OnInit {
     }
 
     startListening(): void {
+        let that = this;
         this.speechRecognition.startListening({
+            returnPartialResults: true,
             onResult: (transcription: SpeechRecognitionTranscription) => {
+                that.set("searchString", transcription.text);
                 if (transcription.finished) {
+                    this.listening=false
                     console.log(`User said: ${transcription.text}`);
                     this.stopListening();
                 }
@@ -65,15 +75,44 @@ export class SearchComponent implements OnInit {
                 this.stopListening();
             }
         }).then(
-            (started: boolean) => { console.log(`started listening: ${started}`); }
+            (started: boolean) => {
+                console.log(`started listening: ${started}`);
+                this.listening=true;
+            }
         ).catch((error) => { console.log(error); });
     }
 
     stopListening(): void {
         this.speechRecognition.stopListening().then(
-            () => { console.log(`stopped listening`); },
+            () => {
+                console.log(`stopped listening`);
+                this.listening=false
+                },
             (errorMessage: string) => { console.error(`Stop error: ${errorMessage}`); }
         );
+    }
+    public onSubmit(args) {
+        let searchBar = <SearchBar>args.object;
+        this.onSearch(searchBar.text ? searchBar.text.toLowerCase() : "");
+        searchBar.dismissSoftInput();
+    }
+
+    onSearch(searchValue) {
+        if (searchValue !== "") {
+            console.log(searchValue)
+        }
+    }
+
+    public onClear(args) {
+        let searchBar = <SearchBar>args.object;
+        searchBar.text = "";
+        searchBar.hint = "Buscar";
+        searchBar.dismissSoftInput();
+    }
+
+    public onTextChange(args) {
+        let searchBar = <SearchBar>args.object;
+        this.onSearch(searchBar.text ? searchBar.text.toLowerCase() : "");
     }
 
 }
