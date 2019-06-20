@@ -19,6 +19,7 @@ import * as app from "tns-core-modules/application";
 import { SearchBar } from "ui/search-bar";
 import { SpeechRecognition, SpeechRecognitionTranscription } from "nativescript-speech-recognition";
 
+
 @Component({
     selector: "Home",
     moduleId: module.id,
