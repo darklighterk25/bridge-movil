@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
     @ViewChild("list") _listRef: ElementRef;
     @ViewChild("animatingImage") _imageRef: ElementRef;
     @ViewChild("animatingImageContainer") _imageContainerRef: ElementRef;
-    private _autos: Auto[];
+    private _autos: any[];
     private _selectedView: View;
     private _adjustedOffset: number = 0;
     private searching: boolean = false;
@@ -66,6 +66,11 @@ export class HomeComponent implements OnInit {
         this.speechRecognition.requestPermission().then((granted: boolean) => {
             console.log("Granted? " + granted);
         });
+        this.autosService.getAutos2().subscribe(res=>{
+            console.log(res.autos)
+            this._autos=res.autos
+            this.autosService.autos=res.autos
+        })
     }
 
     get autos() {
@@ -73,7 +78,7 @@ export class HomeComponent implements OnInit {
     }
 
     onNavigationItemTap(args: any) {
-        this.autosService.setSelectedId(args.index);
+        this.autosService.setSelectedId2(args.index);
         this._selectedView = args.view;
         this.animationsService.animationOffset = this.measureOffset(args.view, args.object);
         this.routerExtensions.navigate(["/details"], {animated: false});

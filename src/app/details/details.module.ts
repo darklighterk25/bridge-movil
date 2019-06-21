@@ -24,6 +24,6 @@ import { ActionButtonModule } from "../action-button/action-button.module";
 	],
 	schemas: [
 		NO_ERRORS_SCHEMA
-	]
+	],
 })
 export class DetailsModule { }

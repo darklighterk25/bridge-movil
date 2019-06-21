@@ -16,7 +16,7 @@ import { AnimationsService } from "../animations-service";
 	styleUrls: ["./details.component.css"]
 })
 export class DetailsComponent {
-	@Input() auto: Auto;
+	@Input() auto: any;
 	@Input() offset: number;
 	@Input() imageOpacity: number = 1;
 	@Input() dockedLabelOpacity: number = 0;
@@ -31,7 +31,7 @@ export class DetailsComponent {
 		private routerExtensions: RouterExtensions) {
 
 		this.offset = this.animationsService.animationOffset;
-		this.auto = this.autosService.getSelected();
+		this.auto = this.autosService.getSelected2();
 	}
 
 	get minHeight() {

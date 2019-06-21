@@ -9,7 +9,7 @@ const routes: Routes = [
     {path: "", component: StoreComponent, children:[
 
         ]},
-    {path: "qrdetails/:id", component:QrdetailsComponent},
+    {path: "qrdetails", component:QrdetailsComponent},
     {path: "", redirectTo:"", pathMatch:"full"}
 ];
 

@@ -8,6 +8,9 @@ import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angul
 import { NativeScriptFormsModule } from "nativescript-angular";
 import { ActionButtonModule } from "~/app/action-button/action-button.module";
 
+import { AutosService } from "~/app/autos-service";
+
+
 @NgModule({
     imports: [
         NativeScriptCommonModule,

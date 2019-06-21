@@ -5,14 +5,14 @@ http://docs.telerik.com/devtools/nativescript-ui/Controls/NativeScript/SideDrawe
 -->
 <RadSideDrawer [drawerTransition]="sideDrawerTransition">
     <GridLayout tkDrawerContent rows="auto, *" class="sidedrawer sidedrawer-left">
-        <StackLayout *ngIf="!isLoggedIn" row="0" class="sidedrawer-header" (tap)="isLoggedIn=true">
+        <StackLayout *ngIf="!this.userService.LoggedIn" row="0" class="sidedrawer-header" (tap)="onNavItemTap('/login')">
             <Label class="sidedrawer-header-brand fa" marginTop="60" fontSize="20" text="Inicia Sesión &#xf090;"></Label>
 
         </StackLayout>
-        <StackLayout *ngIf="isLoggedIn" row="0" class="sidedrawer-header">
-            <Label class="sidedrawer-header-image fa" text="&#xf2bd;"></Label>
-            <Label class="sidedrawer-header-brand" text="Usuario"></Label>
-            <Label class="footnote" text="usuario@correo.com"></Label>
+        <StackLayout *ngIf="this.userService.LoggedIn" row="0" class="sidedrawer-header">
+            <Label class="sidedrawer-header-image" [src]="this.userService.SessionToken.usuario.imagenPerfil"></Label>
+            <Label class="sidedrawer-header-brand" [text]="this.userService.SessionToken.usuario.nombreCompleto.nombres"></Label>
+            <Label class="footnote" [text]="this.userService.SessionToken.usuario.email"></Label>
         </StackLayout>
 
         <ScrollView row="1">
@@ -33,17 +33,17 @@ http://docs.telerik.com/devtools/nativescript-ui/Controls/NativeScript/SideDrawe
                     <Label col="0" text="&#xf1b9;" class="fa"></Label>
                     <Label col="1" text="Código QR" class="p-r-10"></Label>
                 </GridLayout>
-                <GridLayout *ngIf="isLoggedIn" columns="auto, *" class="sidedrawer-list-item"
-                            [class.selected]="isComponentSelected('/search')" (tap)="onNavItemTap('/search')">
+                <GridLayout *ngIf="this.userService.LoggedIn" columns="auto, *" class="sidedrawer-list-item"
+                            [class.selected]="isComponentSelected('/search')" (tap)="onNavItemTap('/userProfile')">
                     <Label col="0" text="&#xf2bd;" class="fa"></Label>
                     <Label col="1" text="Perfil Usuario" class="p-r-10"></Label>
                 </GridLayout>
-                <GridLayout *ngIf="isLoggedIn" columns="auto, *" class="sidedrawer-list-item"
-                            (tap)="isLoggedIn=false">
+                <GridLayout *ngIf="this.userService.LoggedIn" columns="auto, *" class="sidedrawer-list-item"
+                            (tap)="this.userService.LoggedIn=false;this.userService.SessionToken=null;">
                     <Label col="0" text="&#xf08b;" class="fa"></Label>
                     <Label col="1" text="Cerrar Sesión" class="p-r-10"></Label>
                 </GridLayout>
-                <GridLayout *ngIf="!isLoggedIn">
+                <GridLayout *ngIf="!this.userService.LoggedIn">
                     <Button class="fa btn-rounded-sm btn-primary" text="Registrate" (tap)="register()"></Button>
                 </GridLayout>
             </StackLayout>

@@ -9,6 +9,13 @@ import { AppComponent } from "./app.component";
 import { AnimationsService } from "~/app/animations-service";
 import { AutosService } from "~/app/autos-service";
 import { RegisterComponent } from './register/register.component';
+import { NativeScriptFormsModule, NativeScriptHttpModule } from "nativescript-angular";
+import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { LoginComponent } from './login/login.component';
+import { FavoritesComponent } from './favorites/favorites.component';
+import { MainComponent } from './main/main.component';
+import { ActionButtonModule } from "~/app/action-button/action-button.module";
 
 
 @NgModule({
@@ -18,7 +25,11 @@ import { RegisterComponent } from './register/register.component';
     imports: [
         AppRoutingModule,
         NativeScriptModule,
-        NativeScriptUISideDrawerModule
+        NativeScriptHttpModule,
+        NativeScriptHttpClientModule,
+        NativeScriptUISideDrawerModule,
+        NativeScriptFormsModule,
+        ActionButtonModule
     ],
     providers: [
         SpeechRecognition,
@@ -28,10 +39,17 @@ import { RegisterComponent } from './register/register.component';
     ],
     declarations: [
         AppComponent,
-        RegisterComponent
+        RegisterComponent,
+        UserProfileComponent,
+        LoginComponent,
+        FavoritesComponent,
+        MainComponent,
     ],
     schemas: [
         NO_ERRORS_SCHEMA
+    ],
+    exports:[
+        NativeScriptHttpModule
     ]
 })
 export class AppModule {
