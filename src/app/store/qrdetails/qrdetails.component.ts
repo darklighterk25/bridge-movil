@@ -17,7 +17,7 @@ import { switchMap } from "rxjs/internal/operators";
   moduleId: module.id,
 })
 export class QrdetailsComponent implements OnInit {
-  auto: Auto;
+  auto: any;
   auto$:any;
   static IMAGE_MIN_HEIGHT = 48;
 
@@ -29,7 +29,12 @@ export class QrdetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-     this.auto=this.autosService.getAutoDetails(+this.route.snapshot.paramMap.get('id'))
+    console.log(this.autosService.id);
+    this.autosService.getAutoDetails2(this.autosService.id).subscribe((res: any)=>{
+      console.log("Qr result", res)
+      if(res.ok)
+        this.auto=res.auto;
+    })
   }
   get minHeight() {
     return screen.mainScreen.heightDIPs + 2 * QrdetailsComponent.IMAGE_MIN_HEIGHT;

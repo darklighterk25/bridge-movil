@@ -1,0 +1,23 @@
+<ActionBar class="action-bar">
+    <!--
+    Use the NavigationButton as a side-drawer button in Android
+    because ActionItems are shown on the right side of the ActionBar
+    -->
+    <!--
+    Use the ActionItem for IOS with position set to left. Using the
+    NavigationButton as a side-drawer button in iOS is not possible,
+    because its function is to always navigate back in the application.
+    -->
+    <ActionItem icon="res://navigation/menu" isArrow="true" (tap)="onTap($event)"
+                >
+    </ActionItem>
+    <Label class="action-bar-title" text="Iniciar Sesión"></Label>
+</ActionBar>
+
+<GridLayout margin="30" class="page">
+    <StackLayout row="0" orientation="vertical">
+        <TextField [(ngModel)]="userName" hint="Usuario" margin="10"></TextField>
+        <TextField secure="true" [(ngModel)]="password" margin="10" hint="Contraseña"></TextField>
+        <Button class="fa btn btn-primary btn-active" id="signin" text="Ingresar &#xf090;" (tap)="login()"></Button>
+    </StackLayout>
+</GridLayout>

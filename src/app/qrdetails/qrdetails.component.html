@@ -11,7 +11,7 @@
     <ScrollView (scroll)="onScroll($event)">
         <StackLayout *ngIf="auto" [minHeight]="minHeight">
 
-            <Image #image [src]="auto.image" stretch="aspectFit"></Image>
+            <Image #image [src]="auto.imagenes[0]" stretch="aspectFit"></Image>
             <GridLayout #detailLayout rows="auto,auto,auto" columns="auto,auto" translateY="500" (loaded)="a">
 
             </GridLayout>
@@ -19,7 +19,7 @@
             <GridLayout #landmarkLayout rows="auto,auto,auto,auto,auto,auto,auto,auto" columns="auto,*" translateY="500" (loaded)="animateIn(landmarkLayout,300,150)"
                         class="landmark-content">
 
-                <Label #title colSpan="2" textWrap="true" [text]="auto.marca + ' ' + auto.modelo + ' '+ auto.anio " scaleX="0.7" scaleY="0.7" translateX="-30" (loaded)="animateIn(title,250,150)"
+                <Label #title colSpan="2" textWrap="true" [text]="auto.modelo.marca.nombre + ' ' + auto.modelo.nombre + ' '+ auto.anio " scaleX="0.7" scaleY="0.7" translateX="-30" (loaded)="animateIn(title,250,150)"
                        class="landmark-name"></Label>
 
                 <StackLayout class="landmark-detail" #landmarkStat1 row="1" colSpan="2" translateY="500" (loaded)="animateIn(landmarkStat1,200,350)" orientation="horizontal">

@@ -57,15 +57,16 @@ export class StoreComponent implements OnInit {
                     }
                 })
                 console.log(result)
-                this.onNavItemTap("/store/qrdetails/"+result.text)
+                this.autosService.setId(result.text);
+                this.onNavItemTap("/store/qrdetails");
             }, (errorMessage) => {
                 console.log("Error when scanning " + errorMessage);
             }
         );
     }
     goToAuto(id: string){
-        this.autosService.setSelectedId(+id);
-        this.routerExtensions.navigate(["qrdetails"], {animated: false});
+        this.autosService.setId(id);
+        this.routerExtensions.navigate(["/store/qrdetails"], {animated: false});
     }
     isComponentSelected(url: string): boolean {
         return this._activatedUrl === url;

@@ -16,18 +16,22 @@ import { AnimationsService } from "../animations-service";
   moduleId: module.id,
 })
 export class QrdetailsComponent implements OnInit {
-  auto: Auto;
+  auto: any;
   static IMAGE_MIN_HEIGHT = 48;
 
   constructor(private animationsService: AnimationsService,
               private autosService: AutosService,
               private routerExtensions: RouterExtensions) {
 
-
-    this.auto = this.autosService.getSelected();
   }
 
   ngOnInit() {
+    console.log(this.autosService.id);
+    this.autosService.getAutoDetails2(this.autosService.id).subscribe((res: any)=>{
+      console.log("Qr result", res)
+      if(res.ok)
+      this.auto=res.auto;
+    })
   }
   get minHeight() {
     return screen.mainScreen.heightDIPs + 2 * QrdetailsComponent.IMAGE_MIN_HEIGHT;
@@ -51,7 +55,6 @@ export class QrdetailsComponent implements OnInit {
   }
 
   onScroll(args: ScrollEventData) {
-
   }
 
   onTap() {
